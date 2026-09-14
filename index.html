@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 Khảo sát Bảo vệ Dữ liệu Khách hàng TikTok Shop</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .bg-animation span {
+            position: absolute;
+            display: block;
+            width: 20px; height: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            animation: float 25s infinite;
+            bottom: -150px;
+            border-radius: 50%;
+        }
+        
+        .bg-animation span:nth-child(1) { left: 10%; width: 80px; height: 80px; animation-delay: 0s; }
+        .bg-animation span:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+        .bg-animation span:nth-child(3) { left: 35%; width: 60px; height: 60px; animation-delay: 4s; }
+        .bg-animation span:nth-child(4) { left: 50%; width: 40px; height: 40px; animation-delay: 0s; animation-duration: 18s; }
+        .bg-animation span:nth-child(5) { left: 65%; width: 90px; height: 90px; animation-delay: 0s; }
+        .bg-animation span:nth-child(6) { left: 75%; width: 30px; height: 30px; animation-delay: 3s; }
+        .bg-animation span:nth-child(7) { left: 85%; width: 70px; height: 70px; animation-delay: 7s; }
+        .bg-animation span:nth-child(8) { left: 90%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-1500px) rotate(720deg); opacity: 0; }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 700px;
+        }
+        
+        .form-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; left: 0; right: 0;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50% 50% 0 0;
+        }
+        
+        .header-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .header h1 {
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 13px;
+            font-weight: 400;
+        }
+        
+        .progress-container { padding: 20px 30px 0; }
+        
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            text-align: right;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 11px;
+            margin-top: 5px;
+        }
+        
+        .form-body { padding: 30px; }
+        
+        .section { margin-bottom: 30px; }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #f093fb;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-title .icon { font-size: 18px; }
+        
+        .question {
+            margin-bottom: 24px;
+            animation: fadeInUp 0.5s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question-text {
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        
+        .question-text .number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 26px; height: 26px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(240, 147, 251, 0.2);
+            color: #f093fb;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 8px;
+            text-transform: uppercase;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            background: rgba(102, 126, 234, 0.15);
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: translateX(5px);
+        }
+        
+        .option input {
+            margin-right: 12px;
+            width: 18px; height: 18px;
+            accent-color: #667eea;
+            cursor: pointer;
+        }
+        
+        .option label {
+            cursor: pointer;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            flex: 1;
+        }
+        
+        .option.selected {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+        
+        .option.selected label { color: white; }
+        
+        .submit-section {
+            padding: 0 30px 30px;
+            text-align: center;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .submit-btn:active { transform: translateY(-1px); }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 11px;
+        }
+        
+        .footer a {
+            color: #f093fb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-overlay.active { display: flex; }
+        
+        .modal {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            animation: modalIn 0.5s ease;
+        }
+        
+        @keyframes modalIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .modal-icon { font-size: 60px; margin-bottom: 20px; }
+        .modal h2 { color: white; margin-bottom: 10px; }
+        .modal p { color: rgba(255, 255, 255, 0.8); font-size: 14px; }
+        
+        @media (max-width: 600px) {
+            .header h1 { font-size: 18px; }
+            .form-body { padding: 20px; }
+            .option { padding: 12px 14px; }
+        }
+        
+        .spinner {
+            display: none;
+            width: 20px; height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .submit-btn.loading .spinner { display: inline-block; }
+        .submit-btn.loading { pointer-events: none; opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+    </div>
+    
+    <div class="container">
+        <div class="form-card">
+            <div class="header">
+                <div class="header-icon">🔒</div>
+                <h1>BẢO VỆ DỮ LIỆU KHÁCH HÀNG TRÊN TIKTOK SHOP</h1>
+                <p>Nghiên cứu đánh giá và xây dựng chiến lược an toàn thông tin</p>
+                <p style="margin-top: 8px; font-size: 11px;">⏱️ 3-5 phút | 🔒 Ẩn danh | 📊 Phục vụ nghiên cứu</p>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">Tiến trình: 0%</div>
+            </div>
+            
+            <form id="surveyForm" class="form-body">
+                <!-- ========== PHẦN 1: NHẬN THỨC VÀ TRẢI NGHIỆM THỰC TẾ ========== -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="icon">👤</span>
+                        Phần 1: Nhận thức & Trải nghiệm thực tế
+                    </div>
+                    
+                    <!-- Q1 -->
+                    <div class="question">
+                        <div class="question-text">
+                            <span class="number">1</span>
+                            Anh/Chị đã từng cung cấp những loại dữ liệu cá nhân nào khi mua sắm trên TikTok Shop? <span class="badge">Chọn nhiều</span>
+                        </div>
+                        <div class="options">
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q1" value="Thông tin liên hệ" id="q1_1"><label for="q1_1">👤 Họ và tên, Số điện thoại, Địa chỉ nhận hàng</label></div>
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q1" value="Thông tin thanh toán" id="q1_2"><label for="q1_2">💳 Thông tin tài khoản ngân hàng / Thẻ tín dụng</label></div>
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q1" value="Vị trí GPS" id="q1_3"><label for="q1_3">📍 Vị trí địa lý (GPS)</label></div>
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q1" value="Hành vi xem video" id="q1_4"><label for="q1_4">🔍 Lịch sử tìm kiếm, sở thích, thói quen lướt video</label></div>
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q1" value="Khác" id="q1_5"><label for="q1_5">📝 Khác</label></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Q2 -->
+                    <div class="question">
+                        <div class="question-text">
+                            <span class="number">2</span>
+                            Anh/Chị có thường xuyên đọc Điều khoản bảo mật / Chính sách sử dụng dữ liệu trước khi thực hiện giao dịch trên TikTok Shop không?
+                        </div>
+                        <div class="options">
+                            <div class="option" onclick="selectRadio('q2', this)"><input type="radio" name="q2" value="Luôn luôn đọc kỹ" id="q2_1"><label for="q2_1">📖 Luôn luôn đọc kỹ</label></div>
+                            <div class="option" onclick="selectRadio('q2', this)"><input type="radio" name="q2" value="Thỉnh thoảng đọc qua" id="q2_2"><label for="q2_2">👀 Thỉnh thoảng đọc qua các điểm chính</label></div>
+                            <div class="option" onclick="selectRadio('q2', this)"><input type="radio" name="q2" value="Hiếm khi đọc" id="q2_3"><label for="q2_3">⚡ Hiếm khi đọc</label></div>
+                            <div class="option" onclick="selectRadio('q2', this)"><input type="radio" name="q2" value="Không bao giờ đọc" id="q2_4"><label for="q2_4">❌ Không bao giờ đọc (Chỉ bấm "Đồng ý" để tiếp tục)</label></div>
+                        </div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="question">
+                        <div class="question-text">
+                            <span class="number">3</span>
+                            Anh/Chị đã bao giờ gặp phải các sự cố lộ thông tin hoặc phiền phức sau khi mua hàng trên TikTok Shop chưa? <span class="badge">Chọn nhiều</span>
+                        </div>
+                        <div class="options">
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q3" value="Tin nhắn rác/Quảng cáo" id="q3_1"><label for="q3_1">📞 Nhận cuộc gọi / tin nhắn rác quảng cáo từ bên thứ ba</label></div>
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q3" value="Lừa đảo đơn hàng giả COD" id="q3_2"><label for="q3_2">📦 Bị lừa đảo đơn hàng giả (giao hàng Shipper COD không rõ nguồn gốc)</label></div>
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q3" value="Truy cập bất thường" id="q3_3"><label for="q3_3">⚠️ Tài khoản bị truy cập bất thường / Nghi ngờ lộ thông tin thanh toán</label></div>
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q3" value="Chưa từng gặp sự cố" id="q3_4"><label for="q3_4">✅ Chưa từng gặp sự cố nào</label></div>
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q3" value="Khác" id="q3_5"><label for="q3_5">📝 Khác</label></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ========== PHẦN 2: ĐÁNH GIÁ RỦI RO VÀ NIỀM TIN ========== -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="icon">🧠</span>
+                        Phần 2: Đánh giá Rủi ro & Niềm tin
+                    </div>
+                    
+                    <!-- Q4 -->
+                    <div class="question">
+                        <div class="question-text">
+                            <span class="number">4</span>
+                            Theo Anh/Chị, khâu nào trong quá trình mua sắm trên TikTok Shop có nguy cơ rò rỉ dữ liệu cá nhân cao nhất?
+                        </div>
+                        <div class="options">
+                            <div class="option" onclick="selectRadio('q4', this)"><input type="radio" name="q4" value="Đăng ký/Liên kết tài khoản" id="q4_1"><label for="q4_1">🔗 Khi đăng ký / kết nối tài khoản TikTok với TikTok Shop</label></div>
+                            <div class="option" onclick="selectRadio('q4', this)"><input type="radio" name="q4" value="Thanh toán trực tuyến" id="q4_2"><label for="q4_2">💳 Khi thanh toán trực tuyến (Thẻ ngân hàng, ví điện tử)</label></div>
+                            <div class="option" onclick="selectRadio('q4', this)"><input type="radio" name="q4" value="Giao cho Seller và Shipper" id="q4_3"><label for="q4_3">🚚 Khi chia sẻ thông tin cho Nhà bán hàng (Seller) và Đơn vị vận chuyển</label></div>
+                            <div class="option" onclick="selectRadio('q4', this)"><input type="radio" name="q4" value="Thu thập thói quen dùng" id="q4_4"><label for="q4_4">📱 Khi hệ thống thu thập thói quen xem video/hành vi người dùng</label></div>
+                            <div class="option" onclick="selectRadio('q4', this)"><input type="radio" name="q4" value="Không xác định" id="q4_5"><label for="q4_5">❓ Không xác định được</label></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Q5 -->
+                    <div class="question">
+                        <div class="question-text">
+                            <span class="number">5</span>
+                            Anh/Chị đánh giá mức độ an toàn thông tin cá nhân của mình khi giao dịch trên TikTok Shop hiện nay như thế nào?
+                        </div>
+                        <div class="options">
+                            <div class="option" onclick="selectRadio('q5', this)"><input type="radio" name="q5" value="1 - Rất không an toàn" id="q5_1"><label for="q5_1">🔴 1 - Rất không an toàn</label></div>
+                            <div class="option" onclick="selectRadio('q5', this)"><input type="radio" name="q5" value="2 - Không an toàn" id="q5_2"><label for="q5_2">🟠 2 - Không an toàn</label></div>
+                            <div class="option" onclick="selectRadio('q5', this)"><input type="radio" name="q5" value="3 - Bình thường" id="q5_3"><label for="q5_3">🟡 3 - Bình thường / Trung lập</label></div>
+                            <div class="option" onclick="selectRadio('q5', this)"><input type="radio" name="q5" value="4 - An toàn" id="q5_4"><label for="q5_4">🟢 4 - An toàn</label></div>
+                            <div class="option" onclick="selectRadio('q5', this)"><input type="radio" name="q5" value="5 - Rất an toàn" id="q5_5"><label for="q5_5">🔵 5 - Rất an toàn</label></div>
+                        </div>
+                    </div>
+
+                    <!-- Q6 -->
+                    <div class="question">
+                        <div class="question-text">
+                            <span class="number">6</span>
+                            Nếu biết thông tin cá nhân trên TikTok Shop bị chia sẻ cho bên thứ ba mà không có sự đồng ý, Anh/Chị sẽ xử lý như thế nào?
+                        </div>
+                        <div class="options">
+                            <div class="option" onclick="selectRadio('q6', this)"><input type="radio" name="q6" value="Ngừng dùng và xóa app" id="q6_1"><label for="q6_1">🗑️ Ngừng sử dụng và xóa ứng dụng TikTok Shop</label></div>
+                            <div class="option" onclick="selectRadio('q6', this)"><input type="radio" name="q6" value="Hạn chế mua, chỉ dùng COD" id="q6_2"><label for="q6_2">💵 Hạn chế mua hàng, chỉ dùng thanh toán tiền mặt (COD)</label></div>
+                            <div class="option" onclick="selectRadio('q6', this)"><input type="radio" name="q6" value="Báo cáo hỗ trợ/cơ quan" id="q6_3"><label for="q6_3">📢 Báo cáo (Report) với cơ quan chức năng hoặc bộ phận hỗ trợ</label></div>
+                            <div class="option" onclick="selectRadio('q6', this)"><input type="radio" name="q6" value="Tiếp tục dùng, chấp nhận rủi ro" id="q6_4"><label for="q6_4">🤷 Vẫn tiếp tục dùng vì sự tiện lợi, chấp nhận rủi ro</label></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ========== PHẦN 3: ĐÁNH GIÁ VÀ ĐỀ XUẤT GIẢI PHÁP ========== -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="icon">📊</span>
+                        Phần 3: Đánh giá & Đề xuất Giải pháp
+                    </div>
+                    
+                    <!-- Q7 -->
+                    <div class="question">
+                        <div class="question-text">
+                            <span class="number">7</span>
+                            Anh/Chị đánh giá thế nào về tính năng "Ẩn/Mã hóa số điện thoại & địa chỉ" trên tem giao hàng (Shipping label) của TikTok Shop hiện nay?
+                        </div>
+                        <div class="options">
+                            <div class="option" onclick="selectRadio('q7', this)"><input type="radio" name="q7" value="Rất hiệu quả" id="q7_1"><label for="q7_1">👍 Rất hiệu quả, giúp tránh lộ thông tin khi bỏ vỏ hộp</label></div>
+                            <div class="option" onclick="selectRadio('q7', this)"><input type="radio" name="q7" value="Chưa hiệu quả" id="q7_2"><label for="q7_2">👎 Chưa hiệu quả lắm, shipper vẫn hay yêu cầu đọc lại SĐT</label></div>
+                            <div class="option" onclick="selectRadio('q7', this)"><input type="radio" name="q7" value="Chưa chú ý" id="q7_3"><label for="q7_3">❓ Tôi chưa chú ý đến tính năng này</label></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Q8 -->
+                    <div class="question">
+                        <div class="question-text">
+                            <span class="number">8</span>
+                            Theo Anh/Chị, trách nhiệm chính trong việc bảo vệ dữ liệu khách hàng thuộc về bên nào?
+                        </div>
+                        <div class="options">
+                            <div class="option" onclick="selectRadio('q8', this)"><input type="radio" name="q8" value="Ban quản trị TikTok Shop" id="q8_1"><label for="q8_1">🏬 Ban quản trị sàn Thương mại điện tử TikTok Shop</label></div>
+                            <div class="option" onclick="selectRadio('q8', this)"><input type="radio" name="q8" value="Các Nhà bán hàng (Seller)" id="q8_2"><label for="q8_2">🏪 Các Nhà bán hàng (Seller) trên sàn</label></div>
+                            <div class="option" onclick="selectRadio('q8', this)"><input type="radio" name="q8" value="Đơn vị vận chuyển" id="q8_3"><label for="q8_3">🚚 Đơn vị vận chuyển (Bưu tá/Shipper)</label></div>
+                            <div class="option" onclick="selectRadio('q8', this)"><input type="radio" name="q8" value="Bản thân người dùng" id="q8_4"><label for="q8_4">🛡️ Bản thân người tiêu dùng (tự bảo vệ thông tin)</label></div>
+                            <div class="option" onclick="selectRadio('q8', this)"><input type="radio" name="q8" value="Cơ quan quản lý Nhà nước" id="q8_5"><label for="q8_5">⚖️ Các cơ quan quản lý Nhà nước (Luật pháp/Nghị định)</label></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Q9 -->
+                    <div class="question">
+                        <div class="question-text">
+                            <span class="number">9</span>
+                            Anh/Chị mong muốn TikTok Shop áp dụng hoặc nâng cấp giải pháp nào nhất để tăng cường bảo vệ dữ liệu? <span class="badge">Chọn nhiều</span>
+                        </div>
+                        <div class="options">
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q9" value="2FA & Mã hóa thanh toán" id="q9_1"><label for="q9_1">🔐 Tăng cường xác thực 2 lớp (2FA) và mã hóa dữ liệu thanh toán</label></div>
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q9" value="Kiểm soát chia sẻ cho Shop/Shipper" id="q9_2"><label for="q9_2">🛑 Kiểm soát chặt chẽ việc chia sẻ dữ liệu cho Shop và Shipper</label></div>
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q9" value="Xử phạt nặng Shop vi phạm" id="q9_3"><label for="q9_3">⚖️ Xử phạt nặng/Khóa tài khoản các Shop cố tình làm rò rỉ thông tin</label></div>
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q9" value="Minh bạch thuật toán thu thập" id="q9_4"><label for="q9_4">👁️ Minh bạch hơn về việc thuật toán thu thập dữ liệu gì và dùng làm gì</label></div>
+                            <div class="option" onclick="selectCheckbox(this)"><input type="checkbox" name="q9" value="Tuyên truyền hướng dẫn" id="q9_5"><label for="q9_5">📢 Đẩy mạnh tuyên truyền, hướng dẫn người dùng tự bảo vệ tài khoản</label></div>
+                        </div>
+                    </div>
+
+                    <!-- Q10 -->
+                    <div class="question">
+                        <div class="question-text">
+                            <span class="number">10</span>
+                            Anh/Chị có sẵn sàng tiếp tục sử dụng TikTok Shop nếu sàn áp dụng các chính sách xác minh danh tính nghiêm ngặt hơn (dù có thể làm thao tác mua hàng tốn thêm chút thời gian) không?
+                        </div>
+                        <div class="options">
+                            <div class="option" onclick="selectRadio('q10', this)"><input type="radio" name="q10" value="Hoàn toàn sẵn sàng" id="q10_1"><label for="q10_1">✅ Hoàn toàn sẵn sàng (Ưu tiên an toàn dữ liệu trên hết)</label></div>
+                            <div class="option" onclick="selectRadio('q10', this)"><input type="radio" name="q10" value="Phân vân" id="q10_2"><label for="q10_2">🤔 Phân vân (Tùy thuộc vào độ phức tạp của thao tác)</label></div>
+                            <div class="option" onclick="selectRadio('q10', this)"><input type="radio" name="q10" value="Không sẵn sàng" id="q10_3"><label for="q10_3">❌ Không sẵn sàng (Ưu tiên sự nhanh chóng, tiện lợi)</label></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="submit-section">
+                <button type="button" class="submit-btn" id="submitBtn" onclick="submitForm()">
+                    <span class="spinner"></span>
+                    <span class="btn-text">📤 Gửi khảo sát</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            📊 Dữ liệu dùng cho nghiên cứu "Bảo vệ dữ liệu khách hàng TikTok Shop"
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <div class="modal-icon">🎉</div>
+            <h2>Cảm ơn bạn!</h2>
+            <p>Khảo sát đã được ghi nhận thành công.<br>Dữ liệu sẽ được sử dụng cho bài nghiên cứu chiến lược bảo vệ dữ liệu TikTok Shop.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Thay link Google Apps Script Web App của bạn vào đây nếu dùng Google Sheets
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyleZ17OCNHphdhTv3iERIW4ReCxsX5MObI_SblsRXaXjl1Sj12tii88BRYisUhwEB6Ng/exec';
+        
+        function selectRadio(name, element) {
+            document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+                r.closest('.option').classList.remove('selected');
+            });
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+            updateProgress();
+        }
+        
+        function selectCheckbox(element) {
+            const checkbox = element.querySelector('input');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('selected', checkbox.checked);
+            updateProgress();
+        }
+        
+        function updateProgress() {
+            const total = 10;
+            let answered = 0;
+            
+            for (let i = 1; i <= 10; i++) {
+                if (document.querySelector(`input[name="q${i}"]:checked`)) {
+                    answered++;
+                }
+            }
+            
+            const percent = Math.round((answered / total) * 100);
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = `Tiến trình: ${percent}%`;
+        }
+        
+        function submitForm() {
+            const btn = document.getElementById('submitBtn');
+            const btnText = btn.querySelector('.btn-text');
+            
+            // Kiểm tra các câu hỏi bắt buộc
+            for (let i = 1; i <= 10; i++) {
+                if (!document.querySelector(`input[name="q${i}"]:checked`)) {
+                    alert(`⚠️ Vui lòng trả lời câu hỏi số ${i}`);
+                    return;
+                }
+            }
+            
+            btn.classList.add('loading');
+            btnText.textContent = 'Đang gửi...';
+            
+            const formData = new FormData(document.getElementById('surveyForm'));
+            const data = {};
+            
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    if (Array.isArray(data[key])) { 
+                        data[key].push(value); 
+                    } else { 
+                        data[key] = [data[key], value]; 
+                    }
+                } else { 
+                    data[key] = value; 
+                }
+            }
+            
+            data['timestamp'] = new Date().toLocaleString('vi-VN');
+            
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                btn.classList.remove('loading');
+                btnText.textContent = '📤 Gửi khảo sát';
+                document.getElementById('successModal').classList.add('active');
+                setTimeout(() => {
+                    document.getElementById('successModal').classList.remove('active');
+                    document.getElementById('surveyForm').reset();
+                    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                    updateProgress();
+                }, 3000);
+            })
+            .catch(err => {
+                btn.classList.remove('loading');
+                btnText.textContent = '📤 Gửi khảo sát';
+                alert('❌ Lỗi gửi! Vui lòng thử lại.');
+                console.error(err);
+            });
+        }
+        
+        updateProgress();
+    </script>
+</body>
+</html>
